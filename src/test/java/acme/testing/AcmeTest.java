@@ -80,7 +80,7 @@ public abstract class AcmeTest extends AbstractTest {
 		String xpath;
 		By locator;
 
-		xpath = String.format("//div[@class='form-group'][input[@id='%s'] and div[@class='text-danger']]", name);
+		xpath = String.format("//div[@class='form-group'][.//*[@id='%s'] and .//div[@class='text-danger']]", name);
 		locator = By.xpath(xpath);
 		assert super.exists(locator) : String.format("No errors found in input box '%s'", name);
 	}
@@ -100,7 +100,7 @@ public abstract class AcmeTest extends AbstractTest {
 		String xpath;
 		By inputGroupLocator;
 
-		xpath = String.format("//div[@class='form-group'][input[@id='%s'] and div[@class='text-danger']]", name);
+		xpath = String.format("//div[@class='form-group'][.//*[@id='%s'] and .//div[@class='text-danger']]", name);
 		inputGroupLocator = By.xpath(xpath);
 		assert !super.exists(inputGroupLocator) : String.format("Unexpected errors in input box '%s'", name);
 	}
@@ -148,8 +148,7 @@ public abstract class AcmeTest extends AbstractTest {
 		contents = (contents == null ? "" : contents.trim());
 		value = (expectedValue != null ? expectedValue.trim() : "");
 
-		// Se cambia value por context, no funcionaba correctamente
-		assert contents.equals(value) : String.format("Expected value '%s' in input box '%s', but '%s' was found", expectedValue, name, contents);
+		assert contents.equals(value) : String.format("Expected value '%s' in input box '%s', but '%s' was found", value, name, contents);
 	}
 
 	protected void checkColumnHasValue(final int recordIndex, final int attributeIndex, final String expectedValue) {
@@ -176,7 +175,7 @@ public abstract class AcmeTest extends AbstractTest {
 		contents = (contents == null ? "" : contents.trim());
 		value = (expectedValue != null ? expectedValue.trim() : "");
 
-		assert contents.equals(value) : String.format("Expected value '%s' in attribute %d of record %d, but found '%s'", expectedValue, attributeIndex, recordIndex, contents);
+		assert contents.equals(value) : String.format("Expected value '%s' in attribute %d of record %d, but found '%s'", value, attributeIndex, recordIndex, contents);
 	}
 
 	// Form-filling methods ---------------------------------------------------
@@ -309,25 +308,11 @@ public abstract class AcmeTest extends AbstractTest {
 	// Ancillary methods ------------------------------------------------------
 
 	protected List<WebElement> getListingRecord(final int recordIndex) {
-		
+		assert recordIndex >= 0;
 
 		List<WebElement> result;
-		By columnLocator;
-		WebElement  row;
-
-		row= this.getRowAsWebElement(recordIndex);
-		columnLocator = By.tagName("td");
-		result = row.findElements(columnLocator);
-
-		return result;
-	}
-	
-	protected WebElement getRowAsWebElement(final int recordIndex) {
-		
-		assert recordIndex >= 0;
 		int pageIndex, rowIndex;
-		By listLocator, lengthLocator, paginatorLocator, pageLinkLocator, rowLocator;
-		
+		By listLocator, lengthLocator, paginatorLocator, pageLinkLocator, rowLocator, columnLocator;
 		WebElement list, lengthOption, paginator, pageLink, row;
 		List<WebElement> pageLinks, rows;
 
@@ -352,43 +337,10 @@ public abstract class AcmeTest extends AbstractTest {
 		rows = list.findElements(rowLocator);
 		assert rowIndex < rows.size() : String.format("Record index %d is out of range", recordIndex);
 		row = rows.get(rowIndex);
-		return row;
+		columnLocator = By.tagName("td");
+		result = row.findElements(columnLocator);
+
+		return result;
 	}
-	
-	//Este método permite evitar la repetición del xpath cuando buscamos en tablas de las que conocemos el id
-    protected void checkTableHasValue(final String tableId, final int tableCell, final String expectedValue) {
-        
-        final String xpath = "//table[@id='" + tableId + "']//tr[" + tableCell + "]/td";
-        final String cellContent = super.locateOne(By.xpath(xpath)).getText();
-        
-        assert expectedValue.equals(cellContent) 
-                            : String.format("Expected value '%s' in table with id =  %s and cell = %s, but found '%s'", expectedValue, tableId, tableCell, cellContent);
-    }
-    
-    //Este método permite tener un test mucho más simple y evita tener que poner valores triviales como el número de celda 
-    //concreta cuando se va a testear una tabla del dashbaord
-    protected void checkTableWithId(final String tableId, final String firstExpectedValue, final String secondExpectedValue, 
-                                                final String thirdExpectedValue, final String fourthExpectedValue) {
-        
-        
-        final String xpath1 = "//table[@id='" + tableId + "']//tr[" + 1 + "]/td";
-        final String cellContent1 = super.locateOne(By.xpath(xpath1)).getText();
-        final String xpath2 = "//table[@id='" + tableId + "']//tr[" + 2 + "]/td";
-        final String cellContent2 = super.locateOne(By.xpath(xpath2)).getText();
-        final String xpath3 = "//table[@id='" + tableId + "']//tr[" + 3 + "]/td";
-        final String cellContent3 = super.locateOne(By.xpath(xpath3)).getText();
-        final String xpath4 = "//table[@id='" + tableId + "']//tr[" + 4 + "]/td";
-        final String cellContent4 = super.locateOne(By.xpath(xpath4)).getText();
-        
-        assert firstExpectedValue.equals(cellContent1) 
-        : String.format("Expected value '%s' in table with id =  %s and cell = %d, but found '%s'", firstExpectedValue, tableId, 1, cellContent1);
-        assert secondExpectedValue.equals(cellContent2) 
-        : String.format("Expected value '%s' in table with id =  %s and cell = %d, but found '%s'", secondExpectedValue, tableId, 2, cellContent2);
-        assert thirdExpectedValue.equals(cellContent3) 
-        : String.format("Expected value '%s' in table with id =  %s and cell = %d, but found '%s'", thirdExpectedValue, tableId, 3, cellContent3);
-        assert fourthExpectedValue.equals(cellContent4) 
-        : String.format("Expected value '%s' in table with id =  %s and cell = %d, but found '%s'", fourthExpectedValue, tableId, 4, cellContent4);
-        
-    }
 
 }
