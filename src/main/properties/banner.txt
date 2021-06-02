@@ -8,4 +8,4 @@
                                                                                      
 ${Ansi.DEFAULT}
 Powered by Spring Boot ${spring-boot.version}
-Powered by Acme Planner 21.5
+Powered by Acme Planner 21.6
