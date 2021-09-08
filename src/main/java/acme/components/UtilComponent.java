@@ -31,4 +31,24 @@ public class UtilComponent {
 
 		
 	}
+	public static Double workloadToHoursFormat( final Double workload ) {
+		
+		final String stringWorkload= String.valueOf(workload);
+		final Double hours=Double.valueOf( stringWorkload.split("\\.")[0]);
+		final Double minutes= workload-hours;
+		final Double minutesInHours= (minutes*0.5)/0.3;  //30 minutos pasan a ser 0.5 horas
+		return  UtilComponent.aproximar2Decimales(hours + minutesInHours);
+		
+	}
+	public static Double getMinutesFromWorkload(final Double workload) {
+		final String stringWorkload= String.valueOf(workload);
+		final Double hours=Double.valueOf( stringWorkload.split("\\.")[0]);
+		return (workload-hours)*100;
+		
+		
+	}
+	public static double aproximar2Decimales(final Double numero) {
+		return Math.round(numero * 100d) / 100d;
+		
+	}
 }
