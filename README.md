@@ -11,7 +11,9 @@ Este es el proyecto Acme-Work-Plans D4, correspondiente a los alumnos del grupo 
 Ingeniería Informática del Software de la Universidad de Sevilla. Para este proyecto había 
 que trabajar con un framework especial proporcionado por los profesores de la asignatura.
 
-GitHub Repository: https://github.com/felconmar/Acme-Work-Plans.git
+GitHub Repository: https://github.com/vicdiacor/Acme-Work-Plans/
+
+GitHub Release: https://github.com/vicdiacor/Acme-Work-Plans/tree/v1.2
 
 - EL PUERTO  ES EL 8090 por diversos conflictos
 
@@ -33,7 +35,6 @@ GitHub Repository: https://github.com/felconmar/Acme-Work-Plans.git
 - Para satisfacer el requisito de "executionPeriod", hemos creado 2 fechas, una de inicio y otra de fin para las Tasks. No obstante, hemos creado además un nuevo atributo "executionPeriod" que indica la duración en horas entre la fecha de inicio y el fin de la tarea (En este caso, 1.5= 1 hora y 30 minutos) Se usará para saber si un workload entra dentro de la duración de una task. 
 
 Url del proyecto en CleverCloud: http://app_ef60635e-6fa8-4adb-9a75-0878bba925bb.cleverapps.io/Acme-Work-Plans
-PARA ACCEDER DE FORMA CORRECTA A LA APLICACIÓN DESPLEGADA EN CLEVERCLOUD HAY QUE PONER AL FINAL DE LA URL "/Acme-Work-Plans/"
 
 
 USUARIOS PARA NAVEGAR POR LA PÁGINA
